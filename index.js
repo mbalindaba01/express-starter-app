@@ -1,36 +1,61 @@
-const express = require('express');
-const exphbs  = require('express-handlebars');
+const flash = require('express-flash')
+const session = require('express-session')
+const express = require('express')
+const exphbs = require('express-handlebars')
+const { Pool } = require('pg')
+const PizzaPrices = require('./FactoryFunctions/PizzaPrices')
 
-const app = express();
-const PORT =  process.env.PORT || 3017;
+const pizzaPrices = PizzaPrices()
 
-// enable the req.body object - to allow us to use HTML forms
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+const app = express()
 
-// enable the static folder...
-app.use(express.static('public'));
+//set up pool connection to database
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+})
 
-// add more middleware to allow for templating support
+// initialise session middleware - flash-express depends on it
+app.use(session({
+  secret : "<add a secret string here>",
+  resave: false,
+  saveUninitialized: true
+}))
 
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
-
-let counter = 0;
-
-app.get('/', function(req, res) {
-	res.render('index', {
-		counter
-	});
-});
-
-app.post('/count', function(req, res) {
-	counter++;
-	res.redirect('/')
-});
+// initialise the flash middleware
+app.use(flash())
 
 
-// start  the server and start listening for HTTP request on the PORT number specified...
-app.listen(PORT, function() {
-	console.log(`App started on port ${PORT}`)
-});
+//set up middleware
+app.engine('handlebars', exphbs({layoutsDir: "views/layouts/"}))
+app.set('view engine', 'handlebars')
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+
+app.get('/', (req, res) => {
+  res.render('index', {
+    smallPrice: pizzaPrices.getSmallPizzaPrice(),
+    medPrice: pizzaPrices.getMedPizzaPrice(),
+    largePrice: pizzaPrices.getLargePizzaPrice(),
+    smallQuantity: pizzaPrices.getNumOfSmallPizzas(),
+    medQuantity: pizzaPrices.getNumOfMedPizzas(),
+    largeQuantity: pizzaPrices.getNumOfLargePizzas(),
+    totalCost: pizzaPrices.getOrderTotal()
+  })
+})
+
+app.post('/main', (req, res) => {
+  pizzaPrices.setPizzaSize(req.body.size)
+  pizzaPrices.setPizzaPrice(req.body.size)
+  console.log(req.body.size)
+  res.redirect('/')
+})
+
+const PORT = process.env.PORT || 3011
+
+app.listen(PORT, () => {
+    console.log("App is running at port " + PORT)
+})

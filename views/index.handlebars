@@ -1,15 +1,44 @@
-<h1>Counter Index</h1>
-
-
-<div>
-    Start here
-
-    <form action="/count" method="post">
-        <div class="counter" >
-            {{counter}}
-        </div>    
-        <input type="submit" value="Press button to count">
-    
-    </form>
-
-</div>
+ <h1>Mbali's Pizza Palace</h1>
+<section class="text">
+  <div class="pizza-section">
+    <section class="order">
+      <p class="heading">What's in your bag?</p>
+      <p>Small X {{smallQuantity}} - R{{smallPrice}}</p>
+      <p>Medium X {{medQuantity}} - R{{medPrice}}</p>
+      <p>Large X {{largeQuantity}} - R{{largePrice}}</p>
+      <p id="total">Order Total: {{totalCost}}</p>
+      <form action="" method="post">
+        <button type="submit" name="size" value="Order">Order</button>
+      </form>
+    </section>
+    <section class="pizzaSizes">
+      <div id="small" class="card">
+        <h3>Small</h3>
+        <img src="../images/pizza.png" alt="Small Pizza">
+        <p class="price">R30.99</p>
+        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consectetur adipiscing elit pellentesque habitant morbi. Magna ac placerat vestibulum lectus mauris ultrices eros.</p>
+        <form action="/main" method="post">
+          <button type="submit" name="size" value="Small">Buy</button>
+        </form>
+      </div>
+      <div id="medium" class="card">
+        <h3>Medium</h3>
+        <img src="../images/pizza.png" alt="Medium Pizza">
+        <p class="price">R45.99</p>
+        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consectetur adipiscing elit pellentesque habitant morbi. Magna ac placerat vestibulum lectus mauris ultrices eros.</p>
+        <form action="/main" method="post">
+          <button type="submit" name="size" value="Medium">Buy</button>
+        </form>
+      </div>
+      <div id="large" class="card">
+        <h3>Large</h3>
+        <img src="../images/pizza.png" alt="Large Pizza">
+        <p class="price">R59.99</p>
+        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Consectetur adipiscing elit pellentesque habitant morbi. Magna ac placerat vestibulum lectus mauris ultrices eros.</p>
+        <form action="/main" method="post">
+          <button type="submit" name="size" value="Large">Buy</button>
+        </form>
+      </div>
+    </section>
+  </div>
+</section>
