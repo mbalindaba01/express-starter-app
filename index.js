@@ -3,9 +3,11 @@ const session = require('express-session')
 const express = require('express')
 const exphbs = require('express-handlebars')
 const { Pool } = require('pg')
+const PizzaRoutes = require('./routes/pizzaRoutes')
 const PizzaPrices = require('./FactoryFunctions/PizzaPrices')
 
 const pizzaPrices = PizzaPrices()
+const pizzaRoutes = PizzaRoutes()
 
 const app = express()
 
@@ -35,24 +37,9 @@ app.use(express.static('public'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.render('index', {
-    smallPrice: pizzaPrices.getSmallPizzaPrice(),
-    medPrice: pizzaPrices.getMedPizzaPrice(),
-    largePrice: pizzaPrices.getLargePizzaPrice(),
-    smallQuantity: pizzaPrices.getNumOfSmallPizzas(),
-    medQuantity: pizzaPrices.getNumOfMedPizzas(),
-    largeQuantity: pizzaPrices.getNumOfLargePizzas(),
-    totalCost: pizzaPrices.getOrderTotal()
-  })
-})
+app.get('/', pizzaRoutes.mainRoute)
 
-app.post('/main', (req, res) => {
-  pizzaPrices.setPizzaSize(req.body.size)
-  pizzaPrices.setPizzaPrice(req.body.size)
-  console.log(req.body.size)
-  res.redirect('/')
-})
+app.post('/main', pizzaRoutes.addRoute)
 
 const PORT = process.env.PORT || 3011
 
