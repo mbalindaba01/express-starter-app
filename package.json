@@ -1,7 +1,7 @@
 {
-  "name": "greetings-webapp",
+  "name": "express-starter-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "[![Build Status](https://app.travis-ci.com/mbalindaba01/greetings-webapp.svg?branch=master)](https://app.travis-ci.com/mbalindaba01/greetings-webapp)",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -12,16 +12,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mbalindaba01/greetings-webapp.git"
+    "url": "git+https://github.com/mbalindaba01/express-starter-app.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mbalindaba01/greetings-webapp/issues"
+    "url": "https://github.com/mbalindaba01/express-starter-app/issues"
   },
-  "homepage": "https://github.com/mbalindaba01/greetings-webapp#readme",
+  "homepage": "https://github.com/mbalindaba01/express-starter-app#readme",
   "dependencies": {
-    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-flash": "0.0.2",
     "express-handlebars": "^5.3.3",
