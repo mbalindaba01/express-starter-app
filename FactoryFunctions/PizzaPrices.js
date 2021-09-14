@@ -6,6 +6,7 @@ module.exports = () => {
     let numOfSmallPizzas = 0
     let numOfMedPizzas = 0
     let numOfLargePizzas = 0
+    let orderStatus = ""
 
     const setPizzaSize = (size) => {
         pizzaSize = size
@@ -56,6 +57,14 @@ module.exports = () => {
         return numOfLargePizzas
     }
 
+    const updateStatus = (status) => {
+        orderStatus = status
+    }
+
+    const getStatus = () => {
+        return orderStatus
+    }
+
     return {
         setPizzaSize,
         getPizzaSize,
@@ -66,6 +75,8 @@ module.exports = () => {
         getOrderTotal,
         getNumOfSmallPizzas,
         getNumOfMedPizzas,
-        getNumOfLargePizzas
+        getNumOfLargePizzas,
+        updateStatus,
+        getStatus
     }
 }

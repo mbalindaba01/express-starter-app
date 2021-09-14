@@ -15,6 +15,7 @@ body {
 }
 
 h1 {
+    position: relative;
     width: 100%;
     height: 10vh;
     background: #EDB230;
@@ -23,6 +24,8 @@ h1 {
     align-items: center;
     font-family: 'Pacifico', Arial, Helvetica, sans-serif;
 }
+
+
 
 section.text {
     height: 100%;
@@ -47,6 +50,16 @@ section.order p {
     font-weight: 700;
     background: #EDB230;
     padding: 0 10px;
+}
+
+button#order {
+    width: 200px;
+    margin-top: 20px;
+    background: #000;
+    color: #EDB230;
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 p.heading {
@@ -101,4 +114,16 @@ button {
     border: none;
     outline: none;
     background: #EDB230;
+}
+
+button#order-list {
+    width: 200px;
+    position: absolute;
+    background: #000;
+    color: #EDB230;
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-transform: uppercase;
+    top: 15px;
+    right: 15px;
 }

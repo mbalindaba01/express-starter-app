@@ -1,4 +1,7 @@
  <h1>Mbali's Pizza Palace</h1>
+ <form action="" method="post" >
+   <button type="submit" id="order-list">Orders</button>
+ </form>
 <section class="text">
   <div class="pizza-section">
     <section class="order">
@@ -6,9 +9,9 @@
       <p>Small X {{smallQuantity}} - R{{smallPrice}}</p>
       <p>Medium X {{medQuantity}} - R{{medPrice}}</p>
       <p>Large X {{largeQuantity}} - R{{largePrice}}</p>
-      <p id="total">Order Total: {{totalCost}}</p>
+      <p id="total">Order Total: R{{totalCost}}</p>
       <form action="" method="post">
-        <button type="submit" name="size" value="Order">Order</button>
+        <button type="submit" name="order" value="Order" id="order">Order</button>
       </form>
     </section>
     <section class="pizzaSizes">
