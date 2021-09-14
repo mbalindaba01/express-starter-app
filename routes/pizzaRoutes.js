@@ -1,11 +1,20 @@
+const { Pool } = require('pg')
 const PizzaPrices = require('../FactoryFunctions/PizzaPrices')
-const pizzaPrices = PizzaPrices()
+
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL || 'postgres://rlfncsmqavuqjs:2482b813d6550dfd9fadbdb02b33f40e67e6e895a6db848db8ff2002f570f7bc@ec2-54-156-24-159.compute-1.amazonaws.com:5432/d3dfsm93k04okc',
+    ssl: {
+      rejectUnauthorized: false
+    }
+})
+
+const pizzaPrices = PizzaPrices(pool)
 
 module.exports = () => {
+
     const addRoute = (req, res) => {
         pizzaPrices.setPizzaSize(req.body.size)
         pizzaPrices.setPizzaPrice(req.body.size)
-        console.log(req.body.size)
         res.redirect('/')
     }
 
@@ -17,12 +26,43 @@ module.exports = () => {
             smallQuantity: pizzaPrices.getNumOfSmallPizzas(),
             medQuantity: pizzaPrices.getNumOfMedPizzas(),
             largeQuantity: pizzaPrices.getNumOfLargePizzas(),
-            totalCost: pizzaPrices.getOrderTotal()
+            totalCost: pizzaPrices.getOrderTotal().toFixed(2)
+        })
+
+    }
+
+    const orderList = async (req, res) => {
+        await pizzaPrices.getFromDatabase()
+        .then(result => {
+            console.log(result.rows)
+            console.log(pizzaPrices.getBtnText())
+            console.log('Mbali')
+            res.render('orders', {
+                data: result.rows,
+                btnText: pizzaPrices.getBtnText()
+            })
         })
     }
 
+    const updateOrder = (req, res) => {
+        pizzaPrices.setStatus()
+        pizzaPrices.addToDatabase()
+        res.redirect('/')
+    }
+
+    // const updateStatus = (req, res) => {
+    //     pizzaPrices.setOrderNum(req.body.actionRequired)
+    //     pizzaPrices.updateStatus()
+    //     pizzaPrices.updateDb()
+
+    //     res.redirect('/orders')
+    // }
+
     return {
         addRoute,
-        mainRoute
+        mainRoute,
+        orderList,
+        updateOrder,
+        //updateStatus
     }
 }

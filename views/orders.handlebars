@@ -1,0 +1,7 @@
+<h1>Orders</h1>
+<form action="/update" method="post">
+{{#each data}}
+    <p class="order-details">#{{order_num}} {{order_status}} - R{{order_amount}} </p>
+    <button id="status" type="submit" name="actionRequired" value="{{order_num}}">{{btnText}}</button>
+{{/each}}
+</form>

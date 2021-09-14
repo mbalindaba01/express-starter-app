@@ -1,5 +1,5 @@
  <h1>Mbali's Pizza Palace</h1>
- <form action="" method="post" >
+ <form action="/orderList" method="get">
    <button type="submit" id="order-list">Orders</button>
  </form>
 <section class="text">
@@ -10,7 +10,7 @@
       <p>Medium X {{medQuantity}} - R{{medPrice}}</p>
       <p>Large X {{largeQuantity}} - R{{largePrice}}</p>
       <p id="total">Order Total: R{{totalCost}}</p>
-      <form action="" method="post">
+      <form action="/orders" method="post">
         <button type="submit" name="order" value="Order" id="order">Order</button>
       </form>
     </section>

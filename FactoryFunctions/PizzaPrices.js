@@ -1,4 +1,4 @@
-module.exports = () => {
+module.exports = (pool) => {
     let pizzaSize = ""
     let smallPizzaPrice = 0
     let medPizzaPrice = 0
@@ -6,7 +6,28 @@ module.exports = () => {
     let numOfSmallPizzas = 0
     let numOfMedPizzas = 0
     let numOfLargePizzas = 0
-    let orderStatus = ""
+    let orderStatus = "Payment Due"
+    let btnText = "Pay"
+
+    const setStatus = () => {
+        if(orderStatus == "Payment Due"){
+            btnText = "Pay"
+
+        }else if(getStatus() == "Paid"){
+            btnText = "Collect"
+            orderStatus = "Collected"
+        }else if(getStatus() == "Collected"){
+            btnText = ""
+        }
+    }
+
+    const getBtnText = () => {
+        return btnText
+    }
+
+    const getStatus = () => {
+        return orderStatus
+    }
 
     const setPizzaSize = (size) => {
         pizzaSize = size
@@ -57,13 +78,14 @@ module.exports = () => {
         return numOfLargePizzas
     }
 
-    const updateStatus = (status) => {
-        orderStatus = status
+    const addToDatabase = () => {
+        pool.query("insert into ORDERS(order_status, order_amount) values ($1, $2)", [getStatus(), getOrderTotal()])
     }
 
-    const getStatus = () => {
-        return orderStatus
+    const getFromDatabase = async () => {
+        return await pool.query("select * from orders")
     }
+
 
     return {
         setPizzaSize,
@@ -76,7 +98,17 @@ module.exports = () => {
         getNumOfSmallPizzas,
         getNumOfMedPizzas,
         getNumOfLargePizzas,
-        updateStatus,
-        getStatus
+        addToDatabase,
+        getFromDatabase,
+        setStatus,
+        getStatus,
+        // updateStatus,
+        // getStatus,
+        getBtnText,
+        // setOrderNum,
+        // getOrderNum,
+        // updateDb,
+        // fetchBtnText
+
     }
 }

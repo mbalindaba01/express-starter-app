@@ -41,6 +41,13 @@ app.get('/', pizzaRoutes.mainRoute)
 
 app.post('/main', pizzaRoutes.addRoute)
 
+app.post('/orders', pizzaRoutes.updateOrder)
+
+app.get('/orderList', pizzaRoutes.orderList)
+
+//app.post('/update', pizzaRoutes.updateStatus)
+
+
 const PORT = process.env.PORT || 3011
 
 app.listen(PORT, () => {

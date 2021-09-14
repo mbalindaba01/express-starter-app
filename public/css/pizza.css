@@ -113,7 +113,14 @@ button {
     width: 80%;
     border: none;
     outline: none;
-    background: #EDB230;
+    background: black;
+    color: white;
+}
+
+#status{
+    height: 40px;
+    width: 200px;
+    color: black;
 }
 
 button#order-list {
