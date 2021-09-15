@@ -6,28 +6,73 @@ module.exports = (pool) => {
     let numOfSmallPizzas = 0
     let numOfMedPizzas = 0
     let numOfLargePizzas = 0
-    let orderStatus = "Payment Due"
     let btnText = "Pay"
+    let orderNum = 0
+    let status = ""
+
+
+    const setOrderNum = (num) => {
+        orderNum = num
+    }
+
+    const getOrderNum = () => {
+        return orderNum
+    }
 
     const setStatus = () => {
-        if(orderStatus == "Payment Due"){
-            btnText = "Pay"
+    }
 
-        }else if(getStatus() == "Paid"){
-            btnText = "Collect"
-            orderStatus = "Collected"
-        }else if(getStatus() == "Collected"){
-            btnText = ""
+    const getStatus = async () => {
+        status = await pool.query('select order_status from orders where order_num = $1', [getOrderNum()])
+        return status.rows[0].order_status
+    }
+
+    const updateStatus = async () => {
+        if(await getStatus() === "Payment Due"){
+            pool.query('update orders set order_status = $1, action_required = $2 where order_num = $3', ['Paid', 'Collect', getOrderNum()])
+        }else if(await getStatus() == "Paid"){
+            pool.query('update orders set order_status = $1, action_required = $2 where order_num = $3', ['Collected', '', getOrderNum()])
         }
     }
+
+    const resetPrices = () => {
+        smallPizzaPrice = 0
+        medPizzaPrice = 0
+        largePizzaPrice = 0
+        numOfLargePizzas = 0
+        numOfMedPizzas = 0
+        numOfSmallPizzas = 0
+        
+    }
+
+    const resetDb = async() => {
+        await pool.query('truncate orders')
+    }
+
+    // const setUpdatedStatus = async() => {
+    //     updatedStatus = pool.query('select order_status from orders where order_num = $1', [getOrderNum()])
+    // }
+
+    // const getUpdatedStatus = () => {
+    //     return updatedStatus
+    // }
+    
 
     const getBtnText = () => {
         return btnText
     }
 
-    const getStatus = () => {
-        return orderStatus
-    }
+    // const updateBtnText = () => {
+    //     if(updateStatus() == "Payment Due"){
+    //         return "Pay"
+    //     }else if(updateStatus() == "Paid"){
+    //         return "Collect"
+    //     }else {
+    //         return ""
+    //     }
+    // }
+
+
 
     const setPizzaSize = (size) => {
         pizzaSize = size
@@ -79,7 +124,7 @@ module.exports = (pool) => {
     }
 
     const addToDatabase = () => {
-        pool.query("insert into ORDERS(order_status, order_amount) values ($1, $2)", [getStatus(), getOrderTotal()])
+        pool.query("insert into ORDERS(order_amount, action_required) values ($1, $2)", [getOrderTotal(), getBtnText()])
     }
 
     const getFromDatabase = async () => {
@@ -102,12 +147,14 @@ module.exports = (pool) => {
         getFromDatabase,
         setStatus,
         getStatus,
-        // updateStatus,
-        // getStatus,
         getBtnText,
-        // setOrderNum,
-        // getOrderNum,
-        // updateDb,
+        setOrderNum,
+        getOrderNum,
+        updateStatus,
+        resetPrices,
+        resetDb
+        // setUpdatedStatus,
+        // getUpdatedStatus
         // fetchBtnText
 
     }

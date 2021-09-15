@@ -1,7 +1,16 @@
 <h1>Orders</h1>
-<form action="/update" method="post">
-{{#each data}}
-    <p class="order-details">#{{order_num}} {{order_status}} - R{{order_amount}} </p>
-    <button id="status" type="submit" name="actionRequired" value="{{order_num}}">{{btnText}}</button>
-{{/each}}
-</form>
+<section class="orders">
+    <form action="/update" method="post">
+    {{#each data}}
+        <p class="order-details">#{{order_num}} {{order_status}} - R{{order_amount}} </p>
+        {{#if action_required}}
+            <button id="status" type="submit" name="actionRequired" value="{{order_num}}">{{action_required}}</button>
+        {{/if}}
+    {{/each}}
+    </form>
+    {{#if data}}
+        <form action="/reset" method="post">
+            <button id="reset" type="submit" name="reset">Reset</button>
+        </form>
+    {{/if}}
+</section>

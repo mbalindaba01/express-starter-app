@@ -4,9 +4,7 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const { Pool } = require('pg')
 const PizzaRoutes = require('./routes/pizzaRoutes')
-const PizzaPrices = require('./FactoryFunctions/PizzaPrices')
 
-const pizzaPrices = PizzaPrices()
 const pizzaRoutes = PizzaRoutes()
 
 const app = express()
@@ -45,7 +43,9 @@ app.post('/orders', pizzaRoutes.updateOrder)
 
 app.get('/orderList', pizzaRoutes.orderList)
 
-//app.post('/update', pizzaRoutes.updateStatus)
+app.post('/update', pizzaRoutes.updateStatus)
+
+app.post('/reset', pizzaRoutes.resetOrders)
 
 
 const PORT = process.env.PORT || 3011

@@ -13,8 +13,12 @@ const pizzaPrices = PizzaPrices(pool)
 module.exports = () => {
 
     const addRoute = (req, res) => {
-        pizzaPrices.setPizzaSize(req.body.size)
-        pizzaPrices.setPizzaPrice(req.body.size)
+        if(!req.body.size){
+            req.flash('warning', 'Please select at least one pizza')
+        }else {
+            pizzaPrices.setPizzaSize(req.body.size)
+            pizzaPrices.setPizzaPrice(req.body.size)
+        }
         res.redirect('/')
     }
 
@@ -26,43 +30,45 @@ module.exports = () => {
             smallQuantity: pizzaPrices.getNumOfSmallPizzas(),
             medQuantity: pizzaPrices.getNumOfMedPizzas(),
             largeQuantity: pizzaPrices.getNumOfLargePizzas(),
-            totalCost: pizzaPrices.getOrderTotal().toFixed(2)
+            totalCost: pizzaPrices.getOrderTotal().toFixed(2),
+            message: req.flash('warning')
         })
-
     }
 
     const orderList = async (req, res) => {
         await pizzaPrices.getFromDatabase()
         .then(result => {
-            console.log(result.rows)
-            console.log(pizzaPrices.getBtnText())
-            console.log('Mbali')
+            console.table(result.rows)
             res.render('orders', {
                 data: result.rows,
-                btnText: pizzaPrices.getBtnText()
             })
         })
     }
 
     const updateOrder = (req, res) => {
-        pizzaPrices.setStatus()
         pizzaPrices.addToDatabase()
+        pizzaPrices.resetPrices()
         res.redirect('/')
     }
 
-    // const updateStatus = (req, res) => {
-    //     pizzaPrices.setOrderNum(req.body.actionRequired)
-    //     pizzaPrices.updateStatus()
-    //     pizzaPrices.updateDb()
+    const updateStatus = async (req, res) => {
+        pizzaPrices.setOrderNum(req.body.actionRequired)
+        pizzaPrices.updateStatus()
+        console.log(await pizzaPrices.getStatus())
+        res.redirect('/orderList')
+    }
 
-    //     res.redirect('/orders')
-    // }
+    const resetOrders = (req, res) => {
+        pizzaPrices.resetDb()
+        res.redirect('/orderList')
+    }
 
     return {
         addRoute,
         mainRoute,
         orderList,
         updateOrder,
-        //updateStatus
+        updateStatus,
+        resetOrders
     }
 }
