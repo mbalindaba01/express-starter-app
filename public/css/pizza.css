@@ -196,4 +196,8 @@ section.orders form {
         background:#000;
         color: #EDB230;
     }
+
+    h3 {
+        text-decoration: underline 1px;
+    }
 }
