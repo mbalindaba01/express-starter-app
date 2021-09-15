@@ -63,12 +63,17 @@ module.exports = () => {
         res.redirect('/orderList')
     }
 
+    const goBack = (req, res) => {
+        res.redirect('/')
+    }
+
     return {
         addRoute,
         mainRoute,
         orderList,
         updateOrder,
         updateStatus,
-        resetOrders
+        resetOrders,
+        goBack
     }
 }

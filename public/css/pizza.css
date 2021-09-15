@@ -15,7 +15,6 @@ body {
 }
 
 h1 {
-    position: relative;
     width: 100%;
     height: 10vh;
     background: #EDB230;
@@ -187,6 +186,25 @@ section.orders form {
     display: flex;
     width: 100%;
     flex-direction: column;
+}
+
+form.back {
+    position: absolute;
+    height: 10vh;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form.back button {
+    position: absolute;
+    width: 100%;
+    height: 6vh;
+    background: black;
+    color: white;
+    outline: none;
+    border:none;
 }
 
 @media screen and (max-width: 768px){

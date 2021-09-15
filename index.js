@@ -47,6 +47,8 @@ app.post('/update', pizzaRoutes.updateStatus)
 
 app.post('/reset', pizzaRoutes.resetOrders)
 
+app.post('/back', pizzaRoutes.goBack)
+
 
 const PORT = process.env.PORT || 3011
 
